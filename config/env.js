@@ -1,7 +1,9 @@
 const env = {
     webPort: process.env.PORT || 3000
-};
+},
+    secretKey = 'abracadabra';
 
 module.exports = {
-    env: env
+    env: env,
+    'secretKey': secretKey
 };
