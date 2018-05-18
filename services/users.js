@@ -72,7 +72,7 @@ class UsersService {
                         try {
                             let hash = await bCrypt.hash(user.password, saltRounds);
                             // let token = await auth.createToken(user.username);
-
+                            // implement later
                             user.password = hash;
 
                             this.users.push(user);
