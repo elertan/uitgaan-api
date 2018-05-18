@@ -1,4 +1,4 @@
-const apiResponse   = require('../config/apiresponse'),
+const ApiResponse   = require('../config/apiresponse'),
     jwt             = require('jsonwebtoken');
 
 class EventsService {
@@ -7,7 +7,7 @@ class EventsService {
     }
 
     getEvents() {
-        let apiResponse = new apiResponse();
+        let apiResponse = new ApiResponse();
 
         apiResponse.responseBody = this.events;
 

@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status-codes');
 
-class Apiresponse {
+class ApiResponse {
     constructor() {
         this.succesfull = true;
         this.responseCode = HttpStatus.OK;
@@ -8,4 +8,4 @@ class Apiresponse {
     }
 }
 
-module.exports = Apiresponse;
+module.exports = ApiResponse;

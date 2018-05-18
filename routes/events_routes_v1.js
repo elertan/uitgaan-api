@@ -2,7 +2,7 @@ const express       = require('express'),
     routes          = express.Router(),
     EventsService    = require('../services/events');
 
-routes.get('/events', async (req, res) => {
+routes.get('/all', async (req, res) => {
     const response = await EventsService.getEvents();
 
     if (response.succesfull) {
