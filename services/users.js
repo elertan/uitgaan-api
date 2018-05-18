@@ -26,7 +26,7 @@ class UsersService {
             const res = await bCrypt.compare(user.password, currUser.password);
 
             if (res) {
-                apiResponse.responseBody = "Logged in";
+                apiResponse.responseBody = currUser;
 
                 return apiResponse;
             } else {
