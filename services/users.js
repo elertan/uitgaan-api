@@ -72,7 +72,7 @@ class UsersService {
                         try {
                             let hash = await bCrypt.hash(user.password, saltRounds);
                             // let token = await auth.createToken(user.username);
-                            
+
                             user.password = hash;
 
                             this.users.push(user);
@@ -101,8 +101,14 @@ class UsersService {
         }
     }
 
-    registerFakeUsers(users) {
+    async registerFakeUsers(users) {
         for(let u = 0; u < users.length; u ++) {
+            let saltRounds = 10;
+
+            let hash = await bCrypt.hash(users[u].password, saltRounds);
+
+            users[u].password = hash;
+
             this.users.push(users[u]);
         }
     }
