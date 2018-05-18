@@ -5,8 +5,6 @@ const   express             = require('express'),
         config              = require('./config/env'),
         UserService         = require('./services/users'),
         EventsService       = require('./services/events'),
-        webPush             = require('web-push'),
-        path                = require('path'),
         jwt                 = require('express-jwt'),
         bodyParser          = require('body-parser');
         users               = [
@@ -57,33 +55,7 @@ const   express             = require('express'),
 UserService.registerFakeUsers(users);
 EventsService.registerFakeEvents(events);
 
-// var publicVapidKey = 'BEbIg-frypmiOpw_p3xLODjRdcRjCYGSKGFmtXd7bGQGp_aDV7-bJlkDYwLH9YfN3qPTa191_3_-kWSgt3LxIX4';
-// var privateVapidKey = 'kpizbUCpHeGuuXiqnvNLbqc62_5NQ-2qIC0IMUTStOQ';
-//
-// webPush.setVapidDetails('mailto:test@test.com', publicVapidKey, privateVapidKey);
-//
-// app.use(express.static(path.join(__dirname, 'client')));
-
 app.use(bodyParser.json());
-
-// app.post('/subscribe', (req, res) => {
-//     const subscription = req.body;
-//
-//     res.status(201).json({});
-//
-//     const payload = JSON.stringify({ title: 'Push Test' });
-//
-//     webPush.sendNotification(subscription, payload).catch(err => console.log(err));
-// });
-
-// app.use(jwt({
-//     secret: process.env.SECRET_KEY || config.secretKey
-// }).unless({
-//     path: [
-//         { url: '/auth/login', methods: ['POST']},
-//         { url: '/auth/register', methods: ['POST']}
-//     ]
-// }));
 
 app.use('/auth', login_routes_v1);
 app.use('/events', events_routes_v1);
