@@ -15,12 +15,12 @@ export default class AuthRouter extends BaseRouter {
 
         this.router.post('/login', [
             check('username')
-                .exists().withMessage('Username is een verplicht veld.')
-                .isString().withMessage('Username moet een string zijn')
-                .isLength({ min: 5 }).withMessage('Username moet minimaal 5 karakters lang zijn'),
+                .exists().withMessage('Gebruikersnaam is een verplicht veld.')
+                .isString().withMessage('Gebruikersnaam moet een string zijn')
+                .isLength({ min: 5 }).withMessage('Gebruikersnaam moet minimaal 5 karakters lang zijn'),
             check('password')
-                .exists().withMessage('Password is een verplicht veld')
-                .isString().withMessage('Password moet een string zijn')
+                .exists().withMessage('Wachtwoord is een verplicht veld')
+                .isString().withMessage('Wachtwoord moet een string zijn')
                 .isLength({ min: 5 }).withMessage('Wachtwoord moet minimaal 5 karakters lang zijn'),
             BaseRouter.routeParamsMw
         ], this.login);
