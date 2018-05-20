@@ -6,7 +6,9 @@ import {
 } from 'express-validator/check';
 import express from 'express';
 import moment from 'moment';
+import mongoose from 'mongoose';
 
+const User = mongoose.model('User', { username: String, password: String, firstname: String, lastname: String });
 
 export default class AuthRouter extends BaseRouter {
     constructor() {
@@ -47,6 +49,10 @@ export default class AuthRouter extends BaseRouter {
 
     async register(req, res) {
         const user = req.body;
+
+        const userToCreate = new User({ username: user.username, password: user.password, firstname: user.firstname, lastname: user.lastname });
+        await userToCreate.save()
+        console.log("yolo")
         return res.send(ApiResultGen.success(user));
     }
 }

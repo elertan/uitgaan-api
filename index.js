@@ -3,6 +3,7 @@ import config from './config/env';
 import jwt from 'express-jwt';
 import bodyParser from 'body-parser';
 import App from './App';
+import mongoose from 'mongoose';
 
 // events = [
 //     {
@@ -31,10 +32,23 @@ import App from './App';
 //     },
 // ];
 
-const app = express();
-app.use(bodyParser.json());
-app.use(new App().router);
+(async () => {
+    try {
+        await mongoose.connect('mongodb://schoolproject.documents.azure.com:10255/uitgaan?ssl=true', {
+            auth: {
+            user: 'schoolproject',
+            password: 'PASSWORD'
+            }
+        });
+    } catch (err) {
+        console.log(err);
+    }
 
-app.listen(config.env.webPort, function () {
-    console.log('Listening on port: ' + config.env.webPort);
-});
+    const app = express();
+    app.use(bodyParser.json());
+    app.use(new App().router);
+
+    app.listen(config.env.webPort, function () {
+        console.log('Listening on port: ' + config.env.webPort);
+    });
+})();
