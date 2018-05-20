@@ -6,6 +6,7 @@ const schema = mongoose.Schema({
     firstname: String,
     lastname: String,
     dateOfBirth: Date,
+    avatar: String,
 });
 
 export default mongoose.model('User', schema);
