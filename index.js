@@ -45,7 +45,7 @@ COSMOSDB_PASSWORD=PASSWORD`);
     }
 
     const app = express();
-    app.use(bodyParser.json());
+    app.use(bodyParser.json({ limit: '50mb' }));
     app.use(new App().router);
 
     app.listen(config.env.webPort, function () {
