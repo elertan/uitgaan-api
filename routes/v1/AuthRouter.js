@@ -53,7 +53,7 @@ export default class AuthRouter extends BaseRouter {
             const result = await UserRepository.register(user);
             return res.send(ApiResultGen.success(result));
         } catch (err) {
-            return res.send(ApiResultGen.error('Mislukt'));
+            return res.send(ApiResultGen.error(err.message));
         }
     }
 }

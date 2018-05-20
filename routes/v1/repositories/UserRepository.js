@@ -22,6 +22,12 @@ export default class UserRepository extends BaseRepository {
     }
 
     static async register(data) {
+        // User with username already exists
+        const user = await User.findOne({ username: data.username }).exec();
+        if (user) {
+            throw new Error('Gebruikersnaam al in bezet');
+        }
+
         const hashedPass = await bcrypt.hash(data.password, 10);
         data.password = hashedPass;
 
