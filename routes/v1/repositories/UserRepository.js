@@ -35,4 +35,13 @@ export default class UserRepository extends BaseRepository {
         await userToCreate.save();
         return userToCreate;
     }
+
+    static async getAll() {
+        const users = await User.find().exec();
+        if (!users) {
+            throw new Error('Er zijn geen gebruikers gevonden');
+        }
+
+        return users;
+    }
 }

@@ -6,7 +6,6 @@ import {
 } from 'express-validator/check';
 import express from 'express';
 import moment from 'moment';
-import mongoose from 'mongoose';
 
 export default class AuthRouter extends BaseRouter {
     constructor() {
