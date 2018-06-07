@@ -22,4 +22,13 @@ export default class EventRepository extends BaseRepository {
         await eventToCreate.save();
         return eventToCreate;
     }
+
+    static async filterEvents(data) {
+        const event = await Event.find({ "name": { "$regex": data.name, "$options": "i" }}).exec();
+        if (!event) {
+            throw new Error('Geen evenementen gevonden.');
+        }
+
+        return event;
+    }
 }
