@@ -3,7 +3,7 @@ import ApiResultGen from '../../ApiResultGen';
 import express from 'express';
 import FriendRepository from "./repositories/FriendRepository";
 
-export default class FriendsRouter extends BaseRouter {
+export default class FriendRouter extends BaseRouter {
   constructor() {
     super();
     this.router = new express.Router();
