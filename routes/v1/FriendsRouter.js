@@ -10,6 +10,18 @@ export default class FriendsRouter extends BaseRouter {
 
     this.router.get('/', this.getFriends);
     this.router.post('/', this.addFriend);
+    this.router.delete('/', this.deleteFriend);
+  }
+
+  async deleteFriend(req, res) {
+      const friend = req.body;
+
+      try {
+          const result = await UserRepository.removeFriend(friend);
+          return res.send(ApiResultGen.success(result));
+      } catch (err) {
+          return res.send(ApiResultGen.error(err.message));
+      }
   }
 
   async addFriend(req, res) {

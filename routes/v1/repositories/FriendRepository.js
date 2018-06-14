@@ -16,6 +16,16 @@ export default class FriendRepository extends BaseRepository {
         return friendToCreate;
     }
 
+    static async removeFriend(data) {
+        const friend = await Friend.findOne({ username: data.username, friend: data.friend }).exec();
+        if (!friend) {
+            throw new Error('Dit is geen vriend');
+        }
+
+        Friend.findOneAndRemove({ username: data.username, friend: data.friend }).exec();
+        return friend;
+    }
+
     static async getAll() {
         const friends = await Friend.find().exec();
         if (!friends) {
