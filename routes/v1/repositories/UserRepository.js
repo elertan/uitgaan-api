@@ -83,16 +83,20 @@ export default class UserRepository extends BaseRepository {
     }
 
     static async followUser(username1, username2) {
-        console.log(username1, username2);
         const user1Friends = await this.getFriendsByUsername(username1);
+        console.log(user1Friends);
         const alreadyFollowsUser2 = user1Friends.find(user => user.username === username2);
+        console.log(alreadyFollowsUser2);
         if (alreadyFollowsUser2) {
-            return false;
+            console.log('Does already follow')
+            return;
         }
         const relation = new Friend_UserXUser();
         relation.user1 = username1;
         relation.user2 = username2;
+        console.log(relation);
         await relation.save();
+        console.log('saved');
         return await User.findOne({ username: username2 }).exec();
     }
 }
