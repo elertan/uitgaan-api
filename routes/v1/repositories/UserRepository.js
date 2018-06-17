@@ -48,8 +48,14 @@ export default class UserRepository extends BaseRepository {
         return userToCreate;
     }
 
-    static async getAll() {
-        const users = await User.find().exec();
+    static async getAll(username) {
+        const myFriends = await this.getFriendsByUsername(username);
+        myFriends.push({ username });
+        const users = await User.find({
+            username: {
+                "$nin": myFriends.map(user => user.username)
+            }
+        }).exec();
         if (!users) {
             throw new Error('Er zijn geen gebruikers gevonden');
         }

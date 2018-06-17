@@ -14,7 +14,7 @@ export default class UserRouter extends BaseRouter {
 
   async getAll(req, res) {
     try {
-      let users = await UserRepository.getAll();
+      let users = await UserRepository.getAll(req.user.username);
       users = users.map(user => { 
         const newUser = Object.assign({}, user._doc);
         newUser.password = undefined;
