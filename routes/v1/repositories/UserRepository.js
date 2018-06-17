@@ -74,34 +74,26 @@ export default class UserRepository extends BaseRepository {
         const friends_UserXUser = await Friend_UserXUser.find({ 
             $or: [ { user1: username },
                    { user2: username } ] }).exec();
-        console.log(friends_UserXUser);
         if (friends_UserXUser.length === 0) {
             return [];
         }
         const friendUsernames = friends_UserXUser.map(f_UxU => f_UxU.user1 !== username ? f_UxU.user1 : f_UxU.user2);
-        console.log(friendUsernames);
         const friends = await User.find({
             $or: friendUsernames.map(username => ({ username }))
         }).exec();
-        console.log(friends);
         return friends;
     }
 
     static async followUser(username1, username2) {
         const user1Friends = await this.getFriendsByUsername(username1);
-        console.log(user1Friends);
         const alreadyFollowsUser2 = user1Friends.find(user => user.username === username2);
-        console.log(alreadyFollowsUser2);
         if (alreadyFollowsUser2) {
-            console.log('Does already follow')
             return;
         }
         const relation = new Friend_UserXUser();
         relation.user1 = username1;
         relation.user2 = username2;
-        console.log(relation);
         await relation.save();
-        console.log('saved');
         return await User.findOne({ username: username2 }).exec();
     }
 }

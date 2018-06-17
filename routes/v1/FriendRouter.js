@@ -41,18 +41,9 @@ export default class FriendRouter extends BaseRouter {
 
   async getFriends(req, res) {
     try {
-        let providedUser = req.query.username;
-        let friends = await FriendRepository.getAll();
+        let friends = await UserRepository.getFriendsByUsername(req.user.username);
 
-        var results = [];
-
-        for (var friend in friends) {
-            if (friend.username == providedUser) {
-                results.push(friend);
-            }
-        }
-
-        return results;
+        return res.send(ApiResultGen.success(friends));
     } catch (err) {
         res.send(ApiResultGen.error(err.message));
     }
