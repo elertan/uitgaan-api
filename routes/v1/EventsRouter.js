@@ -54,10 +54,10 @@ export default class EventsRouter extends BaseRouter {
     }
 
     async filterEvent(req, res) {
-        const event = req.body;
+        const name = req.body.name;
 
         try {
-            const result = await EventRepository.filterEvents(event);
+            const result = await EventRepository.filterEvents(name);
             return res.send(ApiResultGen.success(result));
         } catch (err) {
             return res.send(ApiResultGen.error(err.message));
