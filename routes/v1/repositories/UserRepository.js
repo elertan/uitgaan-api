@@ -64,22 +64,12 @@ export default class UserRepository extends BaseRepository {
         return user;
     }
 
-    static async getFriendsByUserId(userId) {
+    static async getFriendsByUsername(username) {
         const ObjectId = mongoose.Types.ObjectId;
-        // console.log(objectId);
-        // const friends_UserXUser = await Friend_UserXUser.find({
-        //     $or: [
-        //         { user1: objectId },
-        //         { user2: objectId }
-        //     ]
-        // });
         const friends_UserXUser = await Friend_UserXUser.find({ 
-            $or: [ { user1: new ObjectId("5b01f37ecefcbe002f77900b") },
-                   { user2: new ObjectId("5b01f37ecefcbe002f77900b") } ] }).exec();
-        // db.getCollection('Friend_UserXUser').find({ 
-        //    $or: [{ user1: new ObjectId("5b01f37ecefcbe002f77900b")}, 
-        //          {user2: new ObjectId("5b01f37ecefcbe002f77900b")}] })
-        console.log(friends_UserXUser)
+            $or: [ { user1: username },
+                   { user2: username } ] }).exec();
+        console.log(friends_UserXUser);
         if (friends_UserXUser.length === 0) {
             return [];
         }
@@ -90,5 +80,19 @@ export default class UserRepository extends BaseRepository {
         }).exec();
         console.log(friends);
         return friends;
+    }
+
+    static async followUser(username1, username2) {
+        console.log(username1, username2);
+        const user1Friends = await this.getFriendsByUsername(username1);
+        const alreadyFollowsUser2 = user1Friends.find(user => user.username === username2);
+        if (alreadyFollowsUser2) {
+            return false;
+        }
+        const relation = new Friend_UserXUser();
+        relation.user1 = username1;
+        relation.user2 = username2;
+        await relation.save();
+        return await User.findOne({ username: username2 }).exec();
     }
 }

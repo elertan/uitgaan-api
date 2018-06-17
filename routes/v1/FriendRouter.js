@@ -9,7 +9,7 @@ export default class FriendRouter extends BaseRouter {
     this.router = new express.Router();
 
     this.router.get('/', this.getFriends);
-    this.router.post('/', this.addFriend);
+    this.router.post('/follow', this.addFriend);
     this.router.delete('/', this.deleteFriend);
   }
 
@@ -25,10 +25,10 @@ export default class FriendRouter extends BaseRouter {
   }
 
   async addFriend(req, res) {
-    const friend = req.body;
+    const { username } = req.body;
 
     try {
-        const result = await UserRepository.addFriend(friend);
+        const result = await UserRepository.followUser(req.user.username, username);
         return res.send(ApiResultGen.success(result));
     } catch (err) {
         return res.send(ApiResultGen.error(err.message));
