@@ -57,6 +57,13 @@ export default class UserRepository extends BaseRepository {
         return users;
     }
 
+    static async getByAccessToken(token) {
+        const user = await User.find({
+            accessToken: token
+        }).exec();
+        return user;
+    }
+
     static async getFriendsByUserId(userId) {
         const ObjectId = mongoose.Types.ObjectId;
         // console.log(objectId);
