@@ -12,8 +12,8 @@ export default class MainRouter extends BaseRouter {
         this.router = express.Router();
 
         this.router.use('/auth', new AuthRouter().router);
-        this.router.use(authMw, '/events', new EventsRouter().router);
-        this.router.use(authMw, '/user', new UserRouter().router);
-        this.router.use(authMw, '/friends', new FriendRouter().router);
+        this.router.use('/events', authMw, new EventsRouter().router);
+        this.router.use('/user', authMw, new UserRouter().router);
+        this.router.use('/friends', authMw, new FriendRouter().router);
     }
 }
