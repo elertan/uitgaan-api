@@ -30,7 +30,10 @@ export default class FriendRouter extends BaseRouter {
 
     try {
         const result = await UserRepository.followUser(req.user.username, username);
-        return res.send(ApiResultGen.success(result));
+        if (result) {
+            return res.send(ApiResultGen.success(result));
+        }
+        return res.send(ApiResultGen.error('Je volgt deze gebruiker al'));
     } catch (err) {
         return res.send(ApiResultGen.error(err.message));
     }

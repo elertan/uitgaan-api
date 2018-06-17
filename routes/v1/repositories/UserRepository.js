@@ -72,10 +72,10 @@ export default class UserRepository extends BaseRepository {
         if (friends_UserXUser.length === 0) {
             return [];
         }
-        const friendsIds = friends_UserXUser.map(f_UxU => f_UxU.user1 !== username ? f_UxU.user1 : f_UxU.user2);
-        console.log(friendsIds);
+        const friendUsernames = friends_UserXUser.map(f_UxU => f_UxU.user1 !== username ? f_UxU.user1 : f_UxU.user2);
+        console.log(friendUsernames);
         const friends = await User.find({
-            $or: friendsIds.map(id => { _id: id }) 
+            $or: friendUsernames.map(username => ({ username }))
         }).exec();
         console.log(friends);
         return friends;
