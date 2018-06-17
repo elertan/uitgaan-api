@@ -24,11 +24,11 @@ export default class EventRepository extends BaseRepository {
     }
 
     static async filterEvents(data) {
-        const event = await Event.find({ "name": { "$regex": data.name, "$options": "i" }}).exec();
-        if (!event) {
+        const events = await Event.find({ "name": { "$regex": data.name, "$options": "i" }}).exec();
+        if (!events) {
             throw new Error('Geen evenementen gevonden.');
         }
 
-        return event;
+        return events;
     }
 }
