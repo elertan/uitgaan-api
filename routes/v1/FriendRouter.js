@@ -2,6 +2,7 @@ import BaseRouter from "../../BaseRouter";
 import ApiResultGen from '../../ApiResultGen';
 import express from 'express';
 import FriendRepository from "./repositories/FriendRepository";
+import UserRepository from './repositories/UserRepository';
 
 export default class FriendRouter extends BaseRouter {
   constructor() {
