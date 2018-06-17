@@ -24,6 +24,13 @@ export default class EventsRouter extends BaseRouter {
                 .exists().withMessage('Evenement moet een begindatum hebben.'),
             BaseRouter.routeParamsMw
         ], this.addEvent);
+
+        this.router.post('/filter', [
+            check('name')
+                .exists().withMessage('Evenement moet een naam hebben.')
+                .isString().withMessage('Evenement naam moet een string zijn'),
+            BaseRouter.routeParamsMw
+        ], this.filterEvent);
     }
 
     async getEvents(req, res) {
@@ -40,6 +47,17 @@ export default class EventsRouter extends BaseRouter {
 
         try {
             const result = await EventRepository.addEvent(event);
+            return res.send(ApiResultGen.success(result));
+        } catch (err) {
+            return res.send(ApiResultGen.error(err.message));
+        }
+    }
+
+    async filterEvent(req, res) {
+        const event = req.body;
+
+        try {
+            const result = await EventRepository.filterEvents(event);
             return res.send(ApiResultGen.success(result));
         } catch (err) {
             return res.send(ApiResultGen.error(err.message));
