@@ -65,7 +65,6 @@ export default class UserRepository extends BaseRepository {
     }
 
     static async getFriendsByUsername(username) {
-        const ObjectId = mongoose.Types.ObjectId;
         const friends_UserXUser = await Friend_UserXUser.find({ 
             $or: [ { user1: username },
                    { user2: username } ] }).exec();
@@ -73,7 +72,7 @@ export default class UserRepository extends BaseRepository {
         if (friends_UserXUser.length === 0) {
             return [];
         }
-        const friendsIds = friends_UserXUser.map(f_UxU => f_UxU.user1 !== userId ? f_UxU.user1 : f_UxU.user2);
+        const friendsIds = friends_UserXUser.map(f_UxU => f_UxU.user1 !== username ? f_UxU.user1 : f_UxU.user2);
         console.log(friendsIds);
         const friends = await User.find({
             $or: friendsIds.map(id => { _id: id }) 
