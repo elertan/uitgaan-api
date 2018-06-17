@@ -5,7 +5,7 @@ export default class EventRepository extends BaseRepository {
 
     static async getEvents() {
         try {
-            const events = await Event.find({}).exec();
+            const events = await  Event.find({}).exec();
             return events;
         } catch (err) { }
 
@@ -23,12 +23,12 @@ export default class EventRepository extends BaseRepository {
         return eventToCreate;
     }
 
-    static async filterEvents(data) {
-        const events = await Event.find({ "name": { "$regex": data.name, "$options": "i" }}).exec();
-        if (!events) {
+    static async filterEvents(name) {
+        const event = await Event.find({ "name": { "$regex": name, "$options": "i" }}).exec();
+        if (!event) {
             throw new Error('Geen evenementen gevonden.');
         }
 
-        return events;
+        return event;
     }
 }
