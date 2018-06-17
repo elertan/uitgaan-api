@@ -1,4 +1,4 @@
-import * as bearerToken from 'express-bearer-token';
+import bearerToken from 'express-bearer-token';
 import UserRepo from './routes/v1/repositories/UserRepository';
 import HttpStatusCodes from 'http-status-codes';
 import ApiResultGen from './ApiResultGen';
@@ -11,6 +11,10 @@ const authMw = (req, res, next) => {
     reqKey: 'token',
   })(req, res, async () => {
     const token = req.token;
+    if (!req.token) {
+      res.status(HttpStatusCodes.UNAUTHORIZED).send(ApiResultGen.error('No access token given'));
+      return;
+    }
     const user = await UserRepo.getByAccessToken(token);
     if (user) {
       req.user = user;

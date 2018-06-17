@@ -58,7 +58,7 @@ export default class UserRepository extends BaseRepository {
     }
 
     static async getByAccessToken(token) {
-        const user = await User.find({
+        const user = await User.findOne({
             accessToken: token
         }).exec();
         return user;
