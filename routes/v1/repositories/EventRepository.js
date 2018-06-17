@@ -5,7 +5,7 @@ export default class EventRepository extends BaseRepository {
 
     static async getEvents() {
         try {
-            const events = await  Event.find({}).exec();
+            const events = await Event.find({}).exec();
             return events;
         } catch (err) { }
 
