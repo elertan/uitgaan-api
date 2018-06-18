@@ -96,4 +96,11 @@ export default class UserRepository extends BaseRepository {
         await relation.save();
         return await User.findOne({ username: username2 }).exec();
     }
+
+    static async updateUser(currentUser, newUser) {
+        const user = await User.findOne({ username: currentUser.username }).exec();
+        const updatedUser = Object.assign(user, newUser);
+        await updatedUser.save();
+        return updatedUser;
+    }
 }
