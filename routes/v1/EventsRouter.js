@@ -16,12 +16,14 @@ export default class EventsRouter extends BaseRouter {
                 .exists().withMessage('Evenement moet een naam hebben.')
                 .isString().withMessage('Evenement naam moet een string zijn'),
             check('description')
-                .exists().withMessage('Evenement moet een naam hebben.')
-                .isString().withMessage('Evenement moet een naam hebben.'),
+                .exists().withMessage('Evenement moet een discription hebben.')
+                .isString().withMessage('Evenement moet een discription hebben.'),
             check('till')
                 .exists().withMessage('Evenement moet einddatum hebben.'),
             check('from')
                 .exists().withMessage('Evenement moet een begindatum hebben.'),
+            check('image')
+                .exists().withMessage('Evenement moet een plaatje hebben.'),
             BaseRouter.routeParamsMw
         ], this.addEvent);
 
