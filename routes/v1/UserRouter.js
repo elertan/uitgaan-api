@@ -10,6 +10,7 @@ export default class UserRouter extends BaseRouter {
 
     this.router.get('/', this.getAll);
     this.router.get('/friends/:id', this.getFriends);
+    this.router.post('/edit', this.edit);
   }
 
   async getAll(req, res) {
@@ -33,6 +34,16 @@ export default class UserRouter extends BaseRouter {
       return res.send(ApiResultGen.success(friends));
     } catch (err) {
       res.send(ApiResultGen.error(err.message));
+    }
+  }
+
+  async edit(req, res) {
+    const newUser = req.body.user;
+
+    try {
+      return res.send(ApiResultGen.success(await UserRepository.updateUser(req.user, newUser)));
+    } catch (err) {
+      return res.send(ApiResultGen.error(err.message));
     }
   }
 }
