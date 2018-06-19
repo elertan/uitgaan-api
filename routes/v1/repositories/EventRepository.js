@@ -12,7 +12,6 @@ export default class EventRepository extends BaseRepository {
             const eventsWithUsers = events.map(event => Object.assign(event, { user: users.find(user => user.username === event.username) }));
             return eventsWithUsers;
         } catch (err) { }
-
         return events;
     }
 
