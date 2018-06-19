@@ -1,12 +1,16 @@
 import BaseRepository from '../../../BaseRepository';
 import Event from "../models/Event";
 
+import UserRepository from '../repositories/UserRepository';
+
 export default class EventRepository extends BaseRepository {
 
     static async getEvents() {
         try {
+            const users = await UserRepository.getAll();
             const events = await Event.find({}).sort({ till: 1 }).exec();
-            return events;
+            const eventsWithUsers = events.map(event => Object.assign(event, { user: users.find(user => user.username === event.username) }));
+            return eventsWithUsers;
         } catch (err) { }
 
         return events;
@@ -23,11 +27,14 @@ export default class EventRepository extends BaseRepository {
     }
 
     static async filterEvents(name) {
-        const event = await Event.find({ "name": { "$regex": name, "$options": "i" }}).exec();
-        if (!event) {
+        const events = await Event.find({ "name": { "$regex": name, "$options": "i" }}).exec();
+        return eventsWithUsers;
+        if (!events) {
             throw new Error('Geen evenementen gevonden.');
         }
-
-        return event;
+        const users = await UserRepository.getAll();
+        const eventsWithUsers = events.map(event => Object.assign(event, { user: users.find(user => user.username === event.username) }));
+        
+        return eventsWithUsers;
     }
 }
