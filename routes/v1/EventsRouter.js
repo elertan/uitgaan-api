@@ -26,7 +26,7 @@ export default class EventsRouter extends BaseRouter {
                 .exists().withMessage('Evenement moet een plaatje hebben.'),
             BaseRouter.routeParamsMw
         ], this.addEvent);
-
+        
         this.router.post('/filter', [
             check('name')
                 .exists().withMessage('Evenement moet een naam hebben.')
@@ -48,7 +48,7 @@ export default class EventsRouter extends BaseRouter {
         const event = req.body;
 
         try {
-            const result = await EventRepository.addEvent(event);
+            const result = await EventRepository.addEvent(event, req.user.username);
             return res.send(ApiResultGen.success(result));
         } catch (err) {
             return res.send(ApiResultGen.error(err.message));

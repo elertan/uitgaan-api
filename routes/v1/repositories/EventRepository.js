@@ -12,13 +12,12 @@ export default class EventRepository extends BaseRepository {
         return events;
     }
 
-    static async addEvent(data) {
+    static async addEvent(data,username) {
         const event = await Event.findOne({ name: data.name }).exec();
         if (event) {
             throw new Error('Dit event bestaat al.');
         }
-
-        const eventToCreate = new Event(data);
+        const eventToCreate = new Event(Object.assign(data,{username}));
         await eventToCreate.save();
         return eventToCreate;
     }
