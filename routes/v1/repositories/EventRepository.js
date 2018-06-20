@@ -51,14 +51,23 @@ export default class EventRepository extends BaseRepository {
                 "$options": "i"
             }
         }).exec();
-        return eventsWithUsers;
         if (!events) {
             throw new Error('Geen evenementen gevonden.');
         }
-        const users = await UserRepository.getAll();
-        const eventsWithUsers = events.map(event => Object.assign(event, {
-            user: users.find(user => user.username === event.username)
-        }));
+    const users = await UserRepository.getAll();
+    const eventsWithUsers = events.map(event => { 
+	const user = event.username ? users.find(user => {
+	    user.avatar = null;
+	    return user.username === event.username; 
+	}) : null;
+
+	const docEvent = event._doc;
+	const data = Object.assign({}, docEvent, {
+	    user
+	});
+
+	return data;
+    });
 
         return eventsWithUsers;
     }
