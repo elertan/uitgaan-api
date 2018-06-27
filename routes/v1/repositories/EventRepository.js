@@ -13,7 +13,6 @@ export default class EventRepository extends BaseRepository {
             const users = await UserRepository.getAll();
             const eventsWithUsers = events.map(event => { 
                 const user = event.username ? users.find(user => {
-                    user.avatar = null;
                     return user.username === event.username; 
                 }) : null;
 
@@ -57,7 +56,6 @@ export default class EventRepository extends BaseRepository {
     const users = await UserRepository.getAll();
     const eventsWithUsers = events.map(event => { 
 	const user = event.username ? users.find(user => {
-	    user.avatar = null;
 	    return user.username === event.username; 
 	}) : null;
 
