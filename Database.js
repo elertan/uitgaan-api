@@ -31,7 +31,8 @@ class Database {
   }
 
   static prepQuery (queryString, preps) {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      await Database.connect();
       Database.conn.query(queryString, preps, (err, results) => {
         if (err) {
           return reject(err);
