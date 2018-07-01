@@ -31,7 +31,7 @@ class Database {
   }
 
   static prepQuery (queryString, preps) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       Database.conn.query(queryString, preps, (err, results) => {
         if (err) {
           return reject(err);
