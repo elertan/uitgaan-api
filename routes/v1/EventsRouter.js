@@ -33,6 +33,13 @@ export default class EventsRouter extends BaseRouter {
                 .isString().withMessage('Evenement naam moet een string zijn'),
             BaseRouter.routeParamsMw
         ], this.filterEvent);
+
+        this.router.post('/go-to', [
+            check('eventId')
+                .exists()
+                .isNumeric(),
+            BaseRouter.routeParamsMw
+        ], this.goTo);
     }
 
     async getEvents(req, res) {
@@ -61,6 +68,18 @@ export default class EventsRouter extends BaseRouter {
         try {
             const result = await EventRepository.filterEvents(name);
             return res.send(ApiResultGen.success(result));
+        } catch (err) {
+            return res.send(ApiResultGen.error(err.message));
+        }
+    }
+
+    async goTo(req, res) {
+        const userId = req.user.id;
+        const eventId = req.body.eventId;
+
+        try {
+            const result = await EventRepository.goToEvent(userId, eventId);
+            return res.send(ApiResultGen.success(eventId));
         } catch (err) {
             return res.send(ApiResultGen.error(err.message));
         }

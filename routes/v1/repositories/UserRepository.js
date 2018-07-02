@@ -112,6 +112,7 @@ export default class UserRepository extends BaseRepository {
   static async getByAccessToken(token) {
     const userResult = await Database.prepQuery(`
       SELECT
+        id,
         username,
         password,
         firstname,
