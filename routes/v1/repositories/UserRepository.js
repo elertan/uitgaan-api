@@ -138,6 +138,33 @@ export default class UserRepository extends BaseRepository {
   }
 
   static async updateUser(currentUser, newUser) {
-    return;
+    const updateResult = await Database.prepQuery(`
+      UPDATE User
+      SET
+        firstname = ?,
+        lastname = ?,
+        avatar_image = ?,
+        bio = ?
+      WHERE User.id = ?
+    `, [
+      newUser.firstname,
+      newUser.lastname,
+      newUser.avatar,
+      newUser.bio,
+      currentUser.id,
+    ]);
+    const userResult = await Database.prepQuery(`
+      SELECT
+        username,
+        password,
+        firstname,
+        lastname,
+        avatar_image AS avatar,
+        bio,
+        access_token AS accessToken
+      FROM User
+      WHERE User.id = ?
+    `, [currentUser.id]);
+    return userResult[0];
   }
 }
