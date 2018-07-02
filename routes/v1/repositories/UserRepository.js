@@ -145,13 +145,13 @@ export default class UserRepository extends BaseRepository {
         lastname = ?,
         avatar_image = ?,
         bio = ?
-      WHERE User.id = ?
+      WHERE User.username = ?
     `, [
       newUser.firstname,
       newUser.lastname,
       newUser.avatar,
       newUser.bio,
-      currentUser.id,
+      currentUser.username,
     ]);
     const userResult = await Database.prepQuery(`
       SELECT
@@ -163,8 +163,8 @@ export default class UserRepository extends BaseRepository {
         bio,
         access_token AS accessToken
       FROM User
-      WHERE User.id = ?
-    `, [currentUser.id]);
+      WHERE User.username = ?
+    `, [currentUser.username]);
     return userResult[0];
   }
 }

@@ -34,7 +34,6 @@ export default class UserRouter extends BaseRouter {
 
   async edit(req, res) {
     const newUser = req.body.user;
-
     try {
       return res.send(ApiResultGen.success(await UserRepository.updateUser(req.user, newUser)));
     } catch (err) {
