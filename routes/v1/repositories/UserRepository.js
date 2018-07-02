@@ -25,7 +25,6 @@ export default class UserRepository extends BaseRepository {
         password,
         firstname,
         lastname,
-        date_of_birth AS dateOfBirth,
         avatar_image AS avatar,
         bio,
         access_token AS accessToken
@@ -57,7 +56,7 @@ export default class UserRepository extends BaseRepository {
 
     const result2 = await Database.prepQuery(`
       INSERT INTO User
-      (username, password, firstname, lastname, date_of_birth, avatar_image, bio, access_token)
+      (username, password, firstname, lastname, avatar_image, bio, access_token)
       VALUES
       (?, ?, ?, ?, ?, ?, ?, ?)
     `, [
@@ -65,7 +64,6 @@ export default class UserRepository extends BaseRepository {
       data.password,
       data.firstname,
       data.lastname,
-      data.dateOfBirth,
       data.avatar,
       data.bio,
       data.accessToken,
@@ -78,7 +76,6 @@ export default class UserRepository extends BaseRepository {
         password,
         firstname,
         lastname,
-        date_of_birth AS dateOfBirth,
         avatar_image AS avatar,
         bio,
         access_token AS accessToken
@@ -97,7 +94,6 @@ export default class UserRepository extends BaseRepository {
         password,
         firstname,
         lastname,
-        date_of_birth AS dateOfBirth,
         avatar_image AS avatar,
         bio,
         access_token AS accessToken
@@ -113,7 +109,6 @@ export default class UserRepository extends BaseRepository {
         password,
         firstname,
         lastname,
-        date_of_birth AS dateOfBirth,
         avatar_image AS avatar,
         bio,
         access_token AS accessToken
@@ -130,7 +125,6 @@ export default class UserRepository extends BaseRepository {
         password,
         firstname,
         lastname,
-        date_of_birth AS dateOfBirth,
         avatar_image AS avatar,
         bio,
         access_token AS accessToken
