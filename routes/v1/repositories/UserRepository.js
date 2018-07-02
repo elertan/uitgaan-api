@@ -91,16 +91,52 @@ export default class UserRepository extends BaseRepository {
   }
 
   static async getAll(username) {
-
-    return [];
+    const usersResult = await Database.prepQuery(`
+      SELECT
+        username,
+        password,
+        firstname,
+        lastname,
+        date_of_birth AS dateOfBirth,
+        avatar_image AS avatar,
+        bio,
+        access_token AS accessToken
+      FROM User
+    `);
+    return usersResult;
   }
 
   static async getByAccessToken(token) {
-    return null;
+    const userResult = await Database.prepQuery(`
+      SELECT
+        username,
+        password,
+        firstname,
+        lastname,
+        date_of_birth AS dateOfBirth,
+        avatar_image AS avatar,
+        bio,
+        access_token AS accessToken
+      FROM User
+      WHERE User.access_token = ?
+    `, [token]);
+    return userResult[0];
   }
 
   static async getFriendsByUsername(username) {
-    return [];
+    const usersResult = await Database.prepQuery(`
+      SELECT
+        username,
+        password,
+        firstname,
+        lastname,
+        date_of_birth AS dateOfBirth,
+        avatar_image AS avatar,
+        bio,
+        access_token AS accessToken
+      FROM User
+    `);
+    return usersResult;
   }
 
   static async followUser(username1, username2) {
