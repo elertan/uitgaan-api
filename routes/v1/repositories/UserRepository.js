@@ -88,6 +88,10 @@ export default class UserRepository extends BaseRepository {
   }
 
   static async getAll(username) {
+
+    const idResult = await Database.prepQuery(`SELECT id FROM User WHERE username = ?`, [username]);
+    const id = idResult[0].id;
+
     const usersResult = await Database.prepQuery(`
       SELECT
         username,
@@ -98,7 +102,10 @@ export default class UserRepository extends BaseRepository {
         bio,
         access_token AS accessToken
       FROM User
-    `);
+      WHERE 
+        User.id != ? AND
+        (SELECT COUNT(*) FROM Follow_UserXUser WHERE user1_id = ? AND user2_id = User.id) = 0
+    `, [id, id]);
     return usersResult;
   }
 
@@ -121,24 +128,45 @@ export default class UserRepository extends BaseRepository {
   static async getFriendsByUsername(username) {
     const usersResult = await Database.prepQuery(`
       SELECT
-        username,
-        password,
-        firstname,
-        lastname,
-        avatar_image AS avatar,
-        bio,
-        access_token AS accessToken
-      FROM User
-    `);
+        User.username,
+        User.password,
+        User.firstname,
+        User.lastname,
+        User.avatar_image AS avatar,
+        User.bio,
+        User.access_token AS accessToken
+      FROM Follow_UserXUser
+      INNER JOIN User ON user2_id = User.id
+      WHERE user1_id = (SELECT id FROM User WHERE username = ?)
+    `, [username]);
     return usersResult;
   }
 
   static async followUser(username1, username2) {
-    return;
+    const insertResult = await Database.prepQuery(`
+      INSERT INTO Follow_UserXUser
+      (user1_id, user2_id)
+      VALUES
+      ((SELECT id FROM User WHERE username = ?), (SELECT id FROM User WHERE username = ?))
+    `, [username1, username2]);
+    const result = await Database.prepQuery(`
+      SELECT
+        User.username,
+        User.password,
+        User.firstname,
+        User.lastname,
+        User.avatar_image AS avatar,
+        User.bio,
+        User.access_token AS accessToken
+      FROM Follow_UserXUser
+      INNER JOIN User ON Follow_UserXUser.user2_id = User.id
+      WHERE Follow_UserXUser.id = ?
+    `, [insertResult.insertId]);
+    return result[0];
   }
 
   static async updateUser(currentUser, newUser) {
-    const updateResult = await Database.prepQuery(`
+    await Database.prepQuery(`
       UPDATE User
       SET
         firstname = ?,

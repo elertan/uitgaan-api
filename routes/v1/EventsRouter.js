@@ -36,7 +36,7 @@ export default class EventsRouter extends BaseRouter {
     }
 
     async getEvents(req, res) {
-        const result = await EventRepository.getEvents();
+        const result = await EventRepository.getEvents(req.user.username);
 
         if (!result) {
             return res.send(ApiResultGen.error('Kan geen evenementen ophalen.'));

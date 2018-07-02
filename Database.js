@@ -34,7 +34,6 @@ class Database {
     return new Promise((resolve, reject) => {
       Database.conn.query(queryString, preps, (err, results) => {
         if (err) {
-          debugger;
           console.log(err);
           return reject(err);
         }
