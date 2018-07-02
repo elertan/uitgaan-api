@@ -16,19 +16,18 @@ export default class EventRepository extends BaseRepository {
 
   static async addEvent(data, username) {
     const insertResult = await Database.prepQuery(`
-      INSERT INTO
-        Event 
-        (name, description, price, till, from, image, private, user_id)
+      INSERT INTO Event 
+        (name, description, price, till, fromDate, image, private, user_id)
         VALUES
         (?, ?, ?, ?, ?, ?, ?, (SELECT id FROM User WHERE username = ?))
     `, [
       data.name,
       data.description,
-      data.price,
-      data.till,
-      data.from,
+      String(data.price),
+      String(data.till),
+      String(data.from),
       data.image,
-      data.private,
+      data.privateEvent,
       username,
     ]);
     const eventResult = await Database.prepQuery(`
@@ -39,7 +38,7 @@ export default class EventRepository extends BaseRepository {
       FROM Event
       INNER JOIN User ON User.id = Event.user_id
       WHERE Event.id = ?
-    `, [insertResult.insertedId]);
+    `, [insertResult.insertId]);
 
     return eventResult[0];
   }
