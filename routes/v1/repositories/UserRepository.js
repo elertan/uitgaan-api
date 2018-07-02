@@ -58,7 +58,7 @@ export default class UserRepository extends BaseRepository {
       INSERT INTO User
       (username, password, firstname, lastname, avatar_image, bio, access_token)
       VALUES
-      (?, ?, ?, ?, ?, ?, ?, ?)
+      (?, ?, ?, ?, ?, ?, ?)
     `, [
       data.username,
       data.password,
