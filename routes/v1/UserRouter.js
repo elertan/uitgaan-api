@@ -38,6 +38,7 @@ export default class UserRouter extends BaseRouter {
     try {
       return res.send(ApiResultGen.success(await UserRepository.updateUser(req.user, newUser)));
     } catch (err) {
+      console.log(err);
       return res.send(ApiResultGen.error(err.message));
     }
   }
