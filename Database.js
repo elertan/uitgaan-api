@@ -1,7 +1,7 @@
 import { createConnection } from 'mysql';
 
 class Database {
-  static connect () {
+  static connect() {
     // eslint-disable-next-line
     return new Promise((resolve, reject) => {
       if (Database.conn) {
@@ -30,7 +30,7 @@ class Database {
     });
   }
 
-  static prepQuery (queryString, preps) {
+  static prepQuery(queryString, preps) {
     return new Promise((resolve, reject) => {
       Database.conn.query(queryString, preps, (err, results) => {
         if (err) {
