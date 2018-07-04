@@ -85,6 +85,25 @@ export default class EventRepository extends BaseRepository {
         NOT (Event.private) OR
         (SELECT COUNT(*) FROM Follow_UserXUser WHERE user1_id = ? AND user2_id = User.id) > 0 
     `, [id, id]);
+
+      for (let i = 0; i < eventsResults.length; i++) {
+          const peopleThatComeResults = await Database.prepQuery(`
+        SELECT
+          username,
+          firstname,
+          lastname,
+          avatar_image AS avatar,
+          bio
+        FROM User
+        WHERE
+          0 < (SELECT COUNT(*)
+          FROM EventGoing_UserXEvent
+          WHERE EventGoing_UserXEvent.user_id = User.id AND
+          EventGoing_UserXEvent.event_id = ?)
+      `, [eventsResults[i].id]);
+          eventsResults[i].peopleGoing = peopleThatComeResults;
+      }
+      
     return eventsResults;
   }
 
