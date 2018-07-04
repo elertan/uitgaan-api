@@ -116,4 +116,11 @@ export default class EventRepository extends BaseRepository {
       (?, ?)
     `, [userId, eventId]);
   }
+
+  static async stopGoToEvent(userId, eventId) {
+    await Database.prepQuery(`
+      DELETE FROM EventGoing_UserXEvent
+      WHERE user_id = ? AND event_id = ?
+    `, [userId, eventId]);
+  }
 }

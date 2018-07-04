@@ -85,4 +85,16 @@ export default class EventsRouter extends BaseRouter {
             return res.send(ApiResultGen.error(err.message));
         }
     }
+
+    async stopGoTo(req, res) {
+        const userId = req.user.id;
+        const eventId = req.body.eventId;
+
+        try {
+            const result = await EventRepository.stopGoToEvent(userId, eventId);
+            return res.send(ApiResultGen.success(eventId));
+        } catch (err) {
+            return res.send(ApiResultGen.error(err.message));
+        }
+    }
 }
