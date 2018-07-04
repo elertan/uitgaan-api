@@ -72,7 +72,7 @@ export default class EventRepository extends BaseRepository {
       const idResult = await Database.prepQuery(`SELECT id FROM User WHERE username = ?`, [username]);
       const id = idResult[0].id;
       
-    const eventsResults = await Database.prepQuery(`
+    let eventsResults = await Database.prepQuery(`
       SELECT 
           Event.*,
           User.avatar_image AS avatar,
@@ -80,11 +80,12 @@ export default class EventRepository extends BaseRepository {
       FROM Event
       INNER JOIN User ON User.id = Event.user_id
       WHERE
-        Event.name LIKE '%${name}%' AND
         User.id = ? OR
         NOT (Event.private) OR
         (SELECT COUNT(*) FROM Follow_UserXUser WHERE user1_id = ? AND user2_id = User.id) > 0 
     `, [id, id]);
+
+    eventsResults = eventsResults.filter((event) => event.name.toLowerCase().includes(name.toLowerCase()));
 
       for (let i = 0; i < eventsResults.length; i++) {
           const peopleThatComeResults = await Database.prepQuery(`
