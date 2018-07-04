@@ -40,6 +40,13 @@ export default class EventsRouter extends BaseRouter {
                 .isNumeric(),
             BaseRouter.routeParamsMw
         ], this.goTo);
+
+        this.router.post('/stop-go-to', [
+            check('eventId')
+                .exists()
+                .isNumeric(),
+            BaseRouter.routeParamsMw
+        ], this.stopGoTo);
     }
 
     async getEvents(req, res) {
