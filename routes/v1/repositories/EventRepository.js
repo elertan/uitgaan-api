@@ -77,7 +77,7 @@ export default class EventRepository extends BaseRepository {
       FROM Event
       INNER JOIN User ON User.id = Event.user_id
       WHERE
-        WHERE Event.name LIKE ? AND
+        WHERE Event.name LIKE %?% AND
         User.id = ? OR
         NOT (Event.private) OR
         (SELECT COUNT(*) FROM Follow_UserXUser WHERE user1_id = ? AND user2_id = User.id) > 0 
