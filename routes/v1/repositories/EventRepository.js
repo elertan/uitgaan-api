@@ -68,7 +68,10 @@ export default class EventRepository extends BaseRepository {
     return eventResult[0];
   }
 
-  static async filterEvents(name) {
+  static async filterEvents(name,username) {
+      const idResult = await Database.prepQuery(`SELECT id FROM User WHERE username = ?`, [username]);
+      const id = idResult[0].id;
+      
     const eventsResults = await Database.prepQuery(`
       SELECT 
           Event.*,
@@ -77,11 +80,11 @@ export default class EventRepository extends BaseRepository {
       FROM Event
       INNER JOIN User ON User.id = Event.user_id
       WHERE
-        WHERE Event.name LIKE %?% AND
+        Event.name LIKE '%${name}%' AND
         User.id = ? OR
         NOT (Event.private) OR
         (SELECT COUNT(*) FROM Follow_UserXUser WHERE user1_id = ? AND user2_id = User.id) > 0 
-    `, [name, id, id]);
+    `, [id, id]);
     return eventsResults;
   }
 
